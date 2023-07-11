@@ -7,7 +7,6 @@ import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 export function ProductsCard() {
   const emptyToastProps = { content: null };
   const [isLoading, setIsLoading] = useState(true);
-  const [product, setProduct] = useState([]);
   const [toastProps, setToastProps] = useState(emptyToastProps);
   const fetch = useAuthenticatedFetch();
   const { t } = useTranslation();
@@ -51,19 +50,9 @@ export function ProductsCard() {
     }
   };
 
-  const handleFetchProduct = async () => {
-    setIsLoading(true);
-    const response = await fetch("/api/products");
-    setIsLoading(false);
+ 
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Product data:", data.body.data.products.edges);
-      setProduct(data.body.data.products.edges);
-    } else {
-      console.log("Failed to fetch products:", response.status);
-    }
-  };
+  
   return (
     <>
       {toastMarkup}
@@ -84,19 +73,9 @@ export function ProductsCard() {
               {isLoadingCount ? "-" : data.count}
             </Text>
           </Text>
-        </TextContainer>
+        </TextContainer> 
       </Card>
-      <Card
-        title={"Fetch Products"}
-        sectioned
-        primaryFooterAction={{
-          content: t("Fetch all products"),
-          onAction: handleFetchProduct,
-          loading: isLoading,
-        }}
-      >
-        <p>{product.length}</p>
-      </Card>
+    
     </>
   );
 }
